@@ -13,11 +13,11 @@
   "project": {
     "version": "1.0.0",
     "restore": {
-      "projectUniqueName": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet_Project2/Starter.csproj",
+      "projectUniqueName": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet-Management/Starter.csproj",
       "projectName": "Starter",
-      "projectPath": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet_Project2/Starter.csproj",
+      "projectPath": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet-Management/Starter.csproj",
       "packagesPath": "/Users/user/.nuget/packages/",
-      "outputPath": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet_Project2/obj/",
+      "outputPath": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet-Management/obj/",
       "projectStyle": "PackageReference",
       "configFilePaths": [
         "/Users/user/.nuget/NuGet/NuGet.Config"

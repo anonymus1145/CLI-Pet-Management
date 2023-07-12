@@ -1,8 +1,8 @@
 {
   "version": 2,
-  "dgSpecHash": "6Stb2JXT/SzOgUXdZZdxF1pkO0DenazyGWbLoKzrqUeJCq8PEq0vUEqHO3Y/B38z6tP+JIbUk9E2v5ie8vkFnA==",
+  "dgSpecHash": "RrZXpv4SHCTC/jJEmbC97ehqU5C/FRZ4m5hF6zwVHj4OASldfila2YwAkoroQEGrVyMUeIhsRAKuOpc1xuYC1Q==",
   "success": true,
-  "projectFilePath": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet_Project2/Starter.csproj",
+  "projectFilePath": "/Users/user/Documents/Microsoft .Net Certification/CsharpProjects/Pet-Management/Starter.csproj",
   "expectedPackageFiles": [],
   "logs": []
 }

@@ -89,7 +89,7 @@ do
 
     Console.WriteLine("Welcome to the Contoso PetFriends app. Your main menu options are:");
     Console.WriteLine(" 1. List all of our current pet information");
-    Console.WriteLine(" 2. Add a new animal friend to the ourAnimals array");
+    Console.WriteLine(" 2. Add a new animal friend to the list");
     Console.WriteLine(" 3. Ensure animal ages and physical descriptions are complete");
     Console.WriteLine(" 4. Ensure animal nicknames and personality descriptions are complete");
     Console.WriteLine(" 5. Edit an animal’s age");
@@ -377,28 +377,95 @@ do
 
         case "5":
             // Edit an animal’s age");
-            Console.WriteLine("UNDER CONSTRUCTION - please check back next month to see progress.");
+            Console.Write("Insert the nickname of the pet you want to change the age: ");
+            string pet = Console.ReadLine() ?? "".ToLower();
+            string age = "";
+
+            for (int i = 0; i < maxPets; i++)
+            {
+                if (ourAnimals[i, 3] == $"Nickname: {pet}")
+                {
+                    Console.Write("Insert the new age: ");
+                    age = Console.ReadLine() ?? "";
+                    ourAnimals[i, 2] = "Age: " + age;
+                }
+            }
+
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
 
         case "6":
             // Edit an animal’s personality description");
-            Console.WriteLine("UNDER CONSTRUCTION - please check back next month to see progress.");
+            Console.Write("Insert the nickname of the pet you want to change the personality description: ");
+            pet = Console.ReadLine() ?? "".ToLower();
+            string newDescription = "";
+
+            for (int i = 0; i < maxPets; i++)
+            {
+                if (ourAnimals[i, 3] == $"Nickname: {pet}")
+                {
+                    Console.Write("Insert the new description: ");
+                    newDescription = Console.ReadLine() ?? "";
+                    ourAnimals[i, 4] = "Physical description: " + newDescription;
+                }
+            }
+
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
 
         case "7":
             // Display all cats with a specified characteristic
-            Console.WriteLine("UNDER CONSTRUCTION - please check back next month to see progress.");
+            Console.Write("Insert the specific characteristic for the cat: ");
+            string characteristic = Console.ReadLine() ?? "";
+
+            Console.WriteLine($"The next cats have the {characteristic} characteristic: ");
+
+            for (int i = 0; i < maxPets; i++)
+            {
+                if (ourAnimals[i, 1] == "Species: cat")
+                {
+                    string[] split = ourAnimals[i, 4].Split(' ', '.', ',');
+
+                    for (int j = 0; j < split.Length; j++)
+                    {
+                        if (characteristic == split[j])
+                        {
+                            Console.WriteLine(ourAnimals[i, 3]);
+                            break;
+                        }
+                    }
+                }
+            }
+
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
 
         case "8":
             // Display all dogs with a specified characteristic
-            Console.WriteLine("UNDER CONSTRUCTION - please check back next month to see progress.");
+            Console.Write("Insert the specific characteristic for the dog: ");
+            characteristic = Console.ReadLine() ?? "";
+
+            Console.WriteLine($"The next dogs have the {characteristic} characteristic: ");
+
+            for (int i = 0; i < maxPets; i++)
+            {
+                if (ourAnimals[i, 1] == "Species: dog")
+                {
+                    string[] split = ourAnimals[i, 4].Split(' ', '.', ',');
+
+                    for (int j = 0; j < split.Length; j++)
+                    {
+                        if (characteristic == split[j])
+                        {
+                            Console.WriteLine(ourAnimals[i, 3]);
+                            break;
+                        }
+                    }
+                }
+            }
             Console.WriteLine("Press the Enter key to continue.");
             readResult = Console.ReadLine();
             break;
