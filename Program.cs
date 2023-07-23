@@ -491,7 +491,7 @@ do
         case "10":
             //Save in the database
             //Connect to the DB
-            string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=1QQvSxdfNq; database=sql7633471; charset=utf8; sslMode=none;";
+            string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=; database=sql7633471; charset=utf8; sslMode=none;";
             MySqlConnection connection = new MySqlConnection(connectionString);
 
             Console.WriteLine("Connect to MySql DB..... \n");
@@ -563,7 +563,7 @@ do
 static void ReadFromDb()
 {
     //Connect to the DB
-    string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=1QQvSxdfNq; database=sql7633471; charset=utf8; sslMode=none;";
+    string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=; database=sql7633471; charset=utf8; sslMode=none;";
     MySqlConnection connection = new MySqlConnection(connectionString);
 
     Console.WriteLine("Connect to MySql DB..... \n");
@@ -628,7 +628,7 @@ static void ReadFromDb()
 static void ClearDb()
 {
     //Connect to the DB
-    string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=1QQvSxdfNq; database=sql7633471; charset=utf8; sslMode=none;";
+    string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=; database=sql7633471; charset=utf8; sslMode=none;";
     MySqlConnection connection = new MySqlConnection(connectionString);
 
     Console.WriteLine("Connect to MySql DB..... \n");
