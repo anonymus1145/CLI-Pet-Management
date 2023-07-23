@@ -1,5 +1,12 @@
 using System;
 using System.IO;
+using System.Data.SqlClient;
+using MySql.Data.MySqlClient;
+using System.Data;
+using System.Diagnostics;
+using static System.Text.Encoding;
+using System.Text;
+using System.Xml;
 
 // the ourAnimals array will store the following: 
 string? animalSpecies = "";
@@ -17,6 +24,9 @@ int petCount = 0;
 string anotherPet = "y";
 bool validEntry = false;
 int petAge = 0;
+
+//Calling the encoding so taht you can read from the DB
+Encoding.RegisterProvider(CodePagesEncodingProvider.Instance);
 
 // array used to store runtime data, there is no persisted data
 string[,] ourAnimals = new string[maxPets, 6];
@@ -96,6 +106,9 @@ do
     Console.WriteLine(" 6. Edit an animal’s personality description");
     Console.WriteLine(" 7. Display all cats with a specified characteristic");
     Console.WriteLine(" 8. Display all dogs with a specified characteristic");
+    Console.WriteLine(" 9. See all the pets we have in the database");
+    Console.WriteLine("10. Save the animal list in the database");
+    Console.WriteLine("11. Clear the database");
     Console.WriteLine();
     Console.WriteLine("Enter your selection number (or type Exit to exit the program)");
 
@@ -470,8 +483,186 @@ do
             readResult = Console.ReadLine();
             break;
 
+        case "9":
+            //Read from the database
+            ReadFromDb();
+            break;
+
+        case "10":
+            //Save in the database
+            //Connect to the DB
+            string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=1QQvSxdfNq; database=sql7633471; charset=utf8; sslMode=none;";
+            MySqlConnection connection = new MySqlConnection(connectionString);
+
+            Console.WriteLine("Connect to MySql DB..... \n");
+
+            using (connection)
+            {
+                try
+                {
+                    //Open connection to DB
+                    connection.Open();
+                    Console.WriteLine("Connection is " + connection.State.ToString() + Environment.NewLine);
+
+                    //Create an SQL command
+                    MySqlCommand command = connection.CreateCommand();
+                    command.CommandType = CommandType.Text;
+
+                    for (int i = 0; i < maxPets; i++)
+                    {
+                        animalID = ourAnimals[i, 0].Remove(0, 6);
+                        animalSpecies = ourAnimals[i, 1].Remove(0, 9);
+                        animalAge = ourAnimals[i, 2].Remove(0, 5);
+                        animalPhysicalDescription = ourAnimals[i, 4].Remove(0, 22);
+                        animalPersonalityDescription = ourAnimals[i, 5].Remove(0, 13);
+                        animalNickname = ourAnimals[i, 3].Remove(0, 10);
+
+                        if (animalID == " ")
+                        {
+                            command.CommandText = "INSERT INTO Pet_Management (animalID, animalSpecies, animalAge, animalPhysicalDescription, animalPersonalityDescription, animalNickname) VALUES (' " + animalID + " ', ' " + animalSpecies + " ', ' " + animalAge + " ', ' " + animalPhysicalDescription + " ', ' " + animalPersonalityDescription + " ', ' " + animalNickname + " ')";
+                            command.ExecuteNonQuery();
+                        }
+                        else
+                        {
+                            command.CommandText = "UPDATE Pet_Management SET animalAge = ' " + animalAge + " ', animalSpecies = ' " + animalSpecies + " ', animalPhysicalDescription = ' " + animalPhysicalDescription + " ', animalPersonalityDescription = ' " + animalPersonalityDescription + " ', animalNickname = ' " + animalNickname + " '  WHERE animalID = ' " + animalID + " '";
+                            command.ExecuteNonQuery();
+                        }
+
+                    }
+                    Console.WriteLine("Writing data in the database was succesful!");
+
+                    //Close the connection to DB
+                    connection.Close();
+                    Console.WriteLine("Connection is " + connection.State.ToString() + Environment.NewLine);
+                }
+                catch (MySql.Data.MySqlClient.MySqlException ex)
+                {
+                    Console.WriteLine("Error: " + ex.Message.ToString());
+                }
+                finally
+                {
+                    Console.WriteLine("Press enter to exit....");
+                    Console.Read();
+                }
+            }
+            break;
+
+        case "11":
+            ClearDb();
+            break;
+
+
         default:
             break;
     }
 
 } while (menuSelection != "exit");
+
+
+//Method to read from DB
+static void ReadFromDb()
+{
+    //Connect to the DB
+    string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=1QQvSxdfNq; database=sql7633471; charset=utf8; sslMode=none;";
+    MySqlConnection connection = new MySqlConnection(connectionString);
+
+    Console.WriteLine("Connect to MySql DB..... \n");
+
+    using (connection)
+    {
+        try
+        {
+            //Open connection to DB
+            connection.Open();
+            Console.WriteLine("Connection is " + connection.State.ToString() + Environment.NewLine);
+
+            //Create an SQL command
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = "select * from Pet_Management";
+
+            //Read the result
+            MySqlDataReader reader = command.ExecuteReader();
+
+            if (reader.HasRows)
+            {
+                while (reader.Read())
+                {
+                    string animalID = "ID #: " + reader[0].ToString();
+                    string animalSpecies = "Species: " + reader[1].ToString();
+                    string animalAge = "Age: " + reader[2].ToString();
+                    string animalNickname = "Nickname: " + reader[5].ToString();
+                    string animalPhysicalDescription = "Physical description: " + reader[4].ToString();
+                    string animalPersonalityDescription = "Personality: " + reader[3].ToString();
+
+                    Console.WriteLine(animalID);
+                    Console.WriteLine(animalSpecies);
+                    Console.WriteLine(animalAge);
+                    Console.WriteLine(animalNickname);
+                    Console.WriteLine(animalPhysicalDescription);
+                    Console.WriteLine(animalPersonalityDescription);
+                    Console.WriteLine();
+                }
+            }
+            else
+            {
+                Console.WriteLine("-- Data empty --");
+            }
+            //Close the connection to DB
+            connection.Close();
+            Console.WriteLine("Connection is " + connection.State.ToString() + Environment.NewLine);
+        }
+        catch (MySql.Data.MySqlClient.MySqlException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message.ToString());
+        }
+        finally
+        {
+            Console.WriteLine("Press enter to exit....");
+            Console.Read();
+        }
+    }
+}
+
+//Method to clear the DB
+static void ClearDb()
+{
+    //Connect to the DB
+    string connectionString = "server=sql7.freesqldatabase.com; port=3306; uid=sql7633471; pwd=1QQvSxdfNq; database=sql7633471; charset=utf8; sslMode=none;";
+    MySqlConnection connection = new MySqlConnection(connectionString);
+
+    Console.WriteLine("Connect to MySql DB..... \n");
+
+    using (connection)
+    {
+        try
+        {
+            //Open connection to DB
+            connection.Open();
+            Console.WriteLine("Connection is " + connection.State.ToString() + Environment.NewLine);
+
+            //Create an SQL command
+            MySqlCommand command = connection.CreateCommand();
+            command.CommandType = CommandType.Text;
+            command.CommandText = "delete from Pet_Management";
+
+            //Execute the command
+            command.ExecuteNonQuery();
+
+            Console.WriteLine("Clearing data in the database was succesful!");
+
+            //Close the connection to DB
+            connection.Close();
+            Console.WriteLine("Connection is " + connection.State.ToString() + Environment.NewLine);
+        }
+        catch (MySql.Data.MySqlClient.MySqlException ex)
+        {
+            Console.WriteLine("Error: " + ex.Message.ToString());
+        }
+        finally
+        {
+            Console.WriteLine("Press enter to exit....");
+            Console.Read();
+        }
+    }
+}
