@@ -15,7 +15,8 @@ The idea behind this small project was to create a simple management tool which 
 ### Launch
 
 1. Download he project into a folder in your computer.
-2. Open the command line and go in the folder where the project is.
-3. Run the command : dotnet run
+2. Create a database locally or remote (cloud) and change the credentials from the connection string in appsettings.jason.
+3. Open the command line and go in the folder where the project is.
+4. Run the command : dotnet run
 
 Before runing the project you will need to instal .NET SDK
